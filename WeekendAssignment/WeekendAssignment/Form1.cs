@@ -33,7 +33,7 @@ namespace WeekendAssignment
                 int CustomerID = int.Parse(textBoxSalesOrderID.Text.ToString());
 
                 dataGridActiveCustomers.DataSource = dataWorks.dtSalesorderDetailsByCustomer(CustomerID);
-                comboBoxCustomerName.DataSource = dataWorks.dtNameAndCustomerid();
+                
             }
             catch (Exception ex)
             {
@@ -64,10 +64,10 @@ namespace WeekendAssignment
                 {
                     sqlDa.Fill(dtNameAndCustomerID);
 
-                    foreach (DataRow drVendor in dtNameAndCustomerID.Rows)
+                    foreach (DataRow drNameAndCustomerID in dtNameAndCustomerID.Rows)
                     {
-                        CustomerID = int.Parse(drVendor.ItemArray[0].ToString());
-                        CustomerName = drVendor.ItemArray[1].ToString();
+                        CustomerID = int.Parse(drNameAndCustomerID.ItemArray[1].ToString());
+                        CustomerName = drNameAndCustomerID.ItemArray[0].ToString();
                         comboBoxCustomerName.Items.Add(new cboObject(CustomerID, CustomerName));
                     }
                 }

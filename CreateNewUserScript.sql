@@ -38,6 +38,22 @@ WHERE Customerid = @Customerid
 end
 
 go
+create proc SODBCPREVIEW
+as
+begin
+Select SOH.SalesOrderID, OrderDate, ShipDate, CONCAT(P.Firstname, ' ', P.lastname) as SalesPerson, A.City, SP.Name as State, SOD.LineTotal from Sales.SalesOrderHeader SOH
+inner join person.person P
+on SOH.SalesPersonID = P.BusinessEntityID
+inner join Sales.SalesOrderDetail SOD
+on SOH.SalesOrderID = SOD.SalesOrderID
+inner join person.Address A 
+on A.AddressID = SOH.ShipToAddressID
+inner join person.StateProvince SP
+on SP.StateProvinceID = A.StateProvinceID
+end
+
+
+go
 create proc NameAndCustomerid
 as
 begin
@@ -46,3 +62,4 @@ inner join Person.Person P
 on P.BusinessEntityID = C.PersonID
 end
 
+exec NameAndCustomerid
