@@ -23,16 +23,21 @@ namespace WeekendAssignment
 
         private void dataGridActiveCustomers_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow row = this.dataGridActiveCustomers.Rows[e.RowIndex];
+                textBoxSalesOrderID.Text = row.Cells[0].Value.ToString();
+            }
+            
         }
 
         private void buttonUpdate_Click(object sender, EventArgs e)
         {
             try
             {
-                int CustomerID = int.Parse(textBoxSalesOrderID.Text.ToString());
+                //int CustomerID = int.Parse(textBoxSalesOrderID.Text.ToString());
 
-                dataGridActiveCustomers.DataSource = dataWorks.dtSalesorderDetailsByCustomer(CustomerID);
+                
                 
             }
             catch (Exception ex)
@@ -41,21 +46,18 @@ namespace WeekendAssignment
             }
         }
 
-        private void comboBoxCustomerName_SelectedIndexChanged(object sender, EventArgs e)
-        {
-           
-        }
+        
 
         private void Form1_Load(object sender, EventArgs e)
         {
             const string connString = @"Server=PL8\MTCDB;Database=AdventureWorks2012;Trusted_Connection=True;User ID=AdvWorks2012;Password=123456;";
             SqlConnection sqlConn = new SqlConnection(connString);
 
+            dataGridActiveCustomers.DataSource = dataWorks.dtSODBCPREVIEW();
 
-            //im throwing things around until they work don't judge me
 
-            
-                SqlDataAdapter sqlDa = new SqlDataAdapter("NameAndCustomerid", sqlConn);
+
+            SqlDataAdapter sqlDa = new SqlDataAdapter("NameAndCustomerid", sqlConn);
                 DataTable dtNameAndCustomerID = new DataTable();
                 int CustomerID;
                 string CustomerName;
@@ -69,7 +71,8 @@ namespace WeekendAssignment
                         CustomerID = int.Parse(drNameAndCustomerID.ItemArray[1].ToString());
                         CustomerName = drNameAndCustomerID.ItemArray[0].ToString();
                         comboBoxCustomerName.Items.Add(new cboObject(CustomerID, CustomerName));
-                    }
+                        
+                }
                 }
                 catch (Exception ex)
                 {
@@ -99,14 +102,40 @@ namespace WeekendAssignment
             {
                 get { return cID; }
                 set { cID = value; }
+               
             }
 
             public override string ToString()
             {
                 return this.CustomerName;
+                
             }
         }
 
+        private void textBoxSalesOrderID_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+
+        private void comboBoxCustomerName_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            
+                cboObject currentObject = (cboObject)comboBoxCustomerName.SelectedItem;
+                int SelectedCustomerID = currentObject.CustomerID;
+
+                try
+                {
+
+                    dataGridActiveCustomers.DataSource = dataWorks.dtSalesorderDetailsByCustomer(SelectedCustomerID);
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error ...");
+                }
+            
+            }
     } }
 
 

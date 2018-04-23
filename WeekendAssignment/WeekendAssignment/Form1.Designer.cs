@@ -60,6 +60,7 @@
             this.textBoxSalesOrderID.Name = "textBoxSalesOrderID";
             this.textBoxSalesOrderID.Size = new System.Drawing.Size(181, 20);
             this.textBoxSalesOrderID.TabIndex = 2;
+            this.textBoxSalesOrderID.TextChanged += new System.EventHandler(this.textBoxSalesOrderID_TextChanged);
             // 
             // label1
             // 
@@ -91,7 +92,7 @@
             this.Controls.Add(this.dataGridActiveCustomers);
             this.Controls.Add(this.comboBoxCustomerName);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Sales Orders";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridActiveCustomers)).EndInit();
             this.ResumeLayout(false);

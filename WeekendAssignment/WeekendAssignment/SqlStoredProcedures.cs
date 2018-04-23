@@ -74,10 +74,14 @@ namespace WeekendAssignment
             {
                 if (DBConnect())
                 {
-                    SqlCommand InsertSourceCmd = new SqlCommand("SalesOrderDetailsByCustomers", sqlConn);
+                    SqlCommand InsertSourceCmd = new SqlCommand("SalesOrderDetailsByCustomer", sqlConn);
                     InsertSourceCmd.CommandType = CommandType.StoredProcedure;
 
                     InsertSourceCmd.Parameters.AddWithValue("@Customerid", CustomerID);
+
+                    SqlDataAdapter ComboBoxDataAdapter = new SqlDataAdapter(InsertSourceCmd);
+                    ComboBoxDataAdapter.Fill(dtSalesorderDetailsByCustomer);
+
                 }
                 else
                 {
@@ -121,30 +125,8 @@ namespace WeekendAssignment
             return dtSODBCPREVIEW;
         }
 
-        /*
-        private void DataLookup_Load(object sender, EventArgs e)
-        {
-            SqlDataAdapter sqlDa = new SqlDataAdapter("NameAndCustomerid", sqlConn);
-            DataTable dtVendors = new DataTable();
-            int CustomerID;
-            string CustomerName;
+        
 
-            try
-            {
-                sqlDa.Fill(dtNameAndCustomerid);
 
-                foreach (DataRow drNameAndCustomerid in dtNameAndCustomerid().Rows)
-                {
-                    CustomerID = int.Parse(drNameAndCustomerid.ItemArray[0].ToString());
-                    CustomerName = drNameAndCustomerid.ItemArray[1].ToString();
-                    //cbvendor.Items.Add(new cboObject(CustomerName, CustomerID));
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error ...");
-            }
-            
-        }*/
     }
 }
